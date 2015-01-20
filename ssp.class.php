@@ -94,4 +94,26 @@ class SSP {
 		$row[$function['target']] = $rowTemp;
 		return $row;
 	}
+	
+	static function date_format($model,$row,$function){
+		foreach($function['columns'] as $column){
+			$row[$column] = date_create_from_format($function['format_from'], $row[$column]);
+			$row[$column] = date_format($row[$column],$function['format_to']);
+		}
+		return $row;
+	}
+	
+	static function number_format_decimal($model,$row,$function){
+		foreach($function['columns'] as $column){
+			$row[$column] = $function['prefix'].number_format($row[$column],2,'.',',').$function['suffix'];
+		}
+		return $row;
+	}
+	
+	static function number_format_whole($model,$row,$function){
+		foreach($function['columns'] as $column){
+			$row[$column] = $function['prefix'].number_format($row[$column]).$function['suffix'];
+		}
+		return $row;
+	}
 }

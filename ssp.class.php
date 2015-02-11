@@ -69,6 +69,7 @@ class SSP {
 		if(!empty($functions)){
 			if($data)$data	= self::runDataFunctions($model,$data,$functions);
 		}
+//		array_walk_recursive($data, 'self::encode_items'); //if you need to UTF8-encode your data
 		return array(
 			"draw"			=> intval($request['draw']),
 			"recordsTotal"		=> intval($model->datatablesGetCount($sql)),
@@ -115,5 +116,9 @@ class SSP {
 			$row[$column] = $function['prefix'].number_format($row[$column]).$function['suffix'];
 		}
 		return $row;
+	}
+	
+	static function encode_items(&$item, $key){
+		$item = utf8_encode($item);
 	}
 }
